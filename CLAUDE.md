@@ -68,3 +68,84 @@ For captions, wrap in a figure:
 Can be used directly in frontmatter or Markdown:
 image: "https://images.unsplash.com/photo-xxx?w=1200"
 No need to download — reference the URL directly.
+
+---
+## Current state — updated 2026-03-19
+### Live site
+https://claude4marketing.netlify.app/
+### Features now live
+- Clean minimal design — Inter + Lora fonts, accent blue #2563eb
+- Dark mode with manual toggle (☀/☾) and localStorage persistence
+- Reading progress bar on post pages (3px, accent blue, fixed top)
+- Post tags — pill style, link to /tags/[tag]/ pages
+- Reading time estimate — wordCount ÷ 200, shown in post meta
+- Social share links — Twitter/X, LinkedIn, copy link (post pages)
+- Related posts — shows up to 3 posts sharing tags (post pages)
+- Hero images — frontmatter: image: and imageAlt:
+- Body images — standard Markdown ![alt](/images/file.png)
+- Favicon — serif "C" monogram, accent blue, SVG
+- Open Graph + Twitter Card meta tags — auto-populates social previews
+- og:image — uses post hero image if present
+- Google Search Console verification tag — in base.njk
+- Custom 404 page — mascot image, links to home and search
+- About page — /about/
+- Pagefind search — /search/, indexes on every build
+- Back to top button — appears after 400px scroll, bottom-right
+- netlify.toml — explicit build command and publish directory
+### Pages
+- / — homepage, reverse chronological post list
+- /about/ — about page
+- /search/ — Pagefind search
+- /tags/[tag]/ — tag listing pages
+- /404.html — custom 404
+### File structure
+src/
+  posts/         ← blog posts go here
+  images/        ← local images go here
+  css/style.css  ← all styles
+  _includes/layouts/
+    base.njk     ← global HTML wrapper, nav, head
+    post.njk     ← individual post template
+  index.njk      ← homepage
+  about.njk      ← about page
+  search.njk     ← search page
+  404.njk        ← 404 page
+  _data/metadata.json ← site title, url, description
+  .claude/skills/image-style.md ← image style guide
+### Post frontmatter — full reference
+---
+title: "Post Title"
+description: "One sentence summary"
+date: YYYY-MM-DD
+tags: [post, tag2, tag3]
+layout: layouts/post.njk
+image: "/images/filename.png"        # optional hero image
+imageAlt: "Alt text for image"       # required if image present
+takeaways:                           # optional, for posts 400+ words
+  - Key point one
+  - Key point two
+  - Key point three
+---
+### Image guidelines
+- Local files: save to src/images/, reference as /images/filename.png
+- External URLs (Unsplash, Cloudinary): use full URL directly in image:
+- Style: flat vector cartoon, Notion/Linear style, see .claude/skills/image-style.md
+- DALL-E 3 prompt template in image-style.md
+### Eleventy 3.x compatibility notes
+- Date filter uses toLocaleDateString with en-US locale for %B %d, %Y format
+- Use post.content not post.templateContent in collection loops
+- All passthrough assets must be explicitly declared in .eleventy.js
+### Build
+- npm run build → eleventy + pagefind
+- npm start → local dev server at localhost:8080
+- Push to main → Netlify auto-deploys in ~20s
+### MCP connectors (Claude Code)
+- GitHub MCP: ✅ connected via npx @modelcontextprotocol/server-github
+- Netlify MCP: ❌ blocked (Node/npx issue on Windows — retry after machine restart)
+- Publishing workaround: use gh CLI (already authenticated)
+### Tomorrow's priority
+- ERD-111 — JSON-LD structured data (Urgent)
+- ERD-125 — Clickable post card images (High)
+- ERD-107 — Buttondown newsletter signup (High)
+- ERD-101 — Sitemap + RSS feed (High)
+---
