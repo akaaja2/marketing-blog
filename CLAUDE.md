@@ -31,3 +31,20 @@ layout: layouts/post.njk
 - Modify any files in _site/
 - Change .eleventy.js without being asked
 - Push to any branch other than main
+## Eleventy 3.x compatibility notes
+These are known issues that have already bitten us — don't reintroduce them.
+### Date filter
+Templates use `%B %d, %Y` (strftime-style). The date filter must handle
+this format and return dates in US locale order (March 19, 2026 — not
+19 March 2026). The working implementation uses `toLocaleDateString`
+with `en-US` locale. Do not switch to `MMMM dd, yyyy` format.
+### Reading time on collection items
+In Eleventy 3.x, `post.templateContent` is not reliably available on
+collection items in templates. Always use `post.content` instead.
+`templateContent` will silently return undefined and break the
+readingTime filter without throwing an error.
+### Passthrough copy
+CSS and favicon files must be explicitly added via `addPassthroughCopy`
+in `.eleventy.js` or they will not appear in `_site/`. Current entries:
+- `eleventyConfig.addPassthroughCopy("src/css");`
+- `eleventyConfig.addPassthroughCopy("src/favicon.svg");`
