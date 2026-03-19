@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: Georgia, serif; line-height: 1.7; color: #222; max-width: 720px; margin: 0 auto; padding: 1.5rem; }
+      header { border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 2rem; }
+      header a { font-size: 1.4rem; font-weight: bold; text-decoration: none; color: #222; }
+      header a:hover { color: #555; }
+      main { padding-bottom: 3rem; }
+      a { color: #0066cc; }
+      a:hover { color: #004499; }
+      h1, h2, h3 { line-height: 1.3; margin-bottom: 0.75rem; }
+      p { margin-bottom: 1rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">My Blog</a>
+    </header>
+    <main>
+      {{ content | safe }}
+    </main>
+  </body>
+</html>
