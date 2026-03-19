@@ -48,3 +48,23 @@ CSS and favicon files must be explicitly added via `addPassthroughCopy`
 in `.eleventy.js` or they will not appear in `_site/`. Current entries:
 - `eleventyConfig.addPassthroughCopy("src/css");`
 - `eleventyConfig.addPassthroughCopy("src/favicon.svg");`
+## Images
+### Featured/hero image (optional, per post)
+Add to post frontmatter:
+image: "/images/filename.jpg"
+imageAlt: "Descriptive alt text for accessibility"
+The image file must be placed in src/images/ before pushing.
+It will appear as a hero image on the post page, a card image
+on the homepage, and populate og:image for social previews.
+### Images in post body
+Standard Markdown:
+![Alt text](/images/filename.jpg)
+For captions, wrap in a figure:
+<figure>
+  <img src="/images/filename.jpg" alt="Alt text">
+  <figcaption>Caption text here</figcaption>
+</figure>
+### External image URLs (Unsplash, Cloudinary etc.)
+Can be used directly in frontmatter or Markdown:
+image: "https://images.unsplash.com/photo-xxx?w=1200"
+No need to download — reference the URL directly.

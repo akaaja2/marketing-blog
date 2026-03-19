@@ -15,6 +15,9 @@
   {% else %}
   <meta property="og:type" content="website">
   {% endif %}
+  {% if image %}
+  <meta property="og:image" content="{{ metadata.url }}{{ image }}">
+  {% endif %}
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title or metadata.title }}">

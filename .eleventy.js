@@ -15,6 +15,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/favicon.svg");
+  eleventyConfig.addPassthroughCopy("src/images");
 
   eleventyConfig.addFilter("readingTime", function (content) {
     const words = content.split(/\s+/).length;
