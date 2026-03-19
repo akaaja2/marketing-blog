@@ -1,4 +1,7 @@
+const pluginRss = require("@11ty/eleventy-plugin-rss");
+
 module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addFilter("date", (dateVal, format) => {
     const d = new Date(dateVal);
     if (format === "%B %d, %Y") {
