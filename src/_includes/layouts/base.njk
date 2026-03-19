@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title }} | Claude4Marketing</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="shortcut icon" href="/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body>
-    <header class="site-header">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} — {% endif %}Claude4Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
       <a href="/" class="site-name">Claude4Marketing</a>
       <nav>
         <a href="/">Blog</a>
+        <a href="/about/">About</a>
       </nav>
-    </header>
-    <main>
-      {{ content | safe }}
-    </main>
-    <footer>
-      <p>&copy; 2026 Claude4Marketing</p>
-    </footer>
-  </body>
+    </div>
+  </header>
+  <main class="container">
+    {{ content | safe }}
+  </main>
+  <footer class="site-footer">
+    <div class="container">© 2026 Claude4Marketing</div>
+  </footer>
+</body>
 </html>

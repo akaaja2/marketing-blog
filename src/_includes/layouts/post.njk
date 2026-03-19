@@ -1,42 +1,39 @@
 ---
 layout: layouts/base.njk
 ---
+<div id="progress-bar" style="position:fixed;top:0;left:0;height:3px;width:0%;background:#2563eb;z-index:100;transition:width 0.1s linear;"></div>
 <article>
-  <h1 class="post-title">{{ title }}</h1>
-
-  <div class="post-meta">
-    <span>{{ page.date | date("MMMM dd, yyyy") }}</span>
-    <span>{{ content | readingTime }}</span>
-  </div>
-
-  {% if tags %}
-  <ul class="tag-list" style="margin-top: 0.75rem;">
-    {% for tag in tags %}
-      {% if tag !== "post" %}
-      <li><a href="/tags/{{ tag }}/" class="tag-pill">{{ tag }}</a></li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-  {% endif %}
-
-  <div class="post-body">
+  <header class="post-header">
+    <h1>{{ title }}</h1>
+    <div class="post-meta">
+      {{ date | date("%B %d, %Y") }} &middot; {{ content | readingTime }}
+    </div>
+    {% if tags %}
+    <div class="tags">
+      {% for tag in tags %}
+        {% if tag != "post" %}
+          <a href="/tags/{{ tag }}/" class="tag">{{ tag }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+  <div class="post-content">
     {{ content | safe }}
   </div>
-
   <div class="share-section">
-    <span class="share-label">Share this post:</span>
-    <a class="share-link" href="https://twitter.com/intent/tweet?url={{ metadata.url }}{{ page.url }}&text={{ title | urlencode }}" target="_blank" rel="noopener">Twitter / X</a>
-    <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url={{ metadata.url }}{{ page.url }}" target="_blank" rel="noopener">LinkedIn</a>
-    <button id="copy-link-btn" onclick="copyLink()">Copy link</button>
+    <p>Share this post</p>
+    <div class="share-links">
+      <a href="https://twitter.com/intent/tweet?url=https://claude4marketing.netlify.app{{ page.url }}&text={{ title | urlencode }}" target="_blank" rel="noopener">Twitter / X</a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://claude4marketing.netlify.app{{ page.url }}" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" onclick="navigator.clipboard.writeText(window.location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy link',2000);return false;">Copy link</a>
+    </div>
   </div>
 </article>
-
 <script>
-  function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(function () {
-      var btn = document.getElementById('copy-link-btn');
-      btn.textContent = 'Copied!';
-      setTimeout(function () { btn.textContent = 'Copy link'; }, 2000);
-    });
-  }
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const doc = document.documentElement;
+    el.style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  });
 </script>

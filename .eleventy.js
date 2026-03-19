@@ -1,6 +1,9 @@
 module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("date", (dateVal, format) => {
     const d = new Date(dateVal);
+    if (format === "%B %d, %Y") {
+      return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    }
     if (format === "MMMM dd, yyyy") {
       return d.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "2-digit" });
     }
