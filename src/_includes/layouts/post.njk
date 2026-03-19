@@ -2,9 +2,41 @@
 layout: layouts/base.njk
 ---
 <article>
-  <h1>{{ title }}</h1>
-  <p style="color:#888; font-size:0.9rem; margin-bottom:1.5rem;">
-    {{ page.date | date("MMMM dd, yyyy") }}
-  </p>
-  {{ content | safe }}
+  <h1 class="post-title">{{ title }}</h1>
+
+  <div class="post-meta">
+    <span>{{ page.date | date("MMMM dd, yyyy") }}</span>
+    <span>{{ content | readingTime }}</span>
+  </div>
+
+  {% if tags %}
+  <ul class="tag-list" style="margin-top: 0.75rem;">
+    {% for tag in tags %}
+      {% if tag !== "post" %}
+      <li><a href="/tags/{{ tag }}/" class="tag-pill">{{ tag }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <div class="post-body">
+    {{ content | safe }}
+  </div>
+
+  <div class="share-section">
+    <span class="share-label">Share this post:</span>
+    <a class="share-link" href="https://twitter.com/intent/tweet?url={{ metadata.url }}{{ page.url }}&text={{ title | urlencode }}" target="_blank" rel="noopener">Twitter / X</a>
+    <a class="share-link" href="https://www.linkedin.com/sharing/share-offsite/?url={{ metadata.url }}{{ page.url }}" target="_blank" rel="noopener">LinkedIn</a>
+    <button id="copy-link-btn" onclick="copyLink()">Copy link</button>
+  </div>
 </article>
+
+<script>
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      var btn = document.getElementById('copy-link-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(function () { btn.textContent = 'Copy link'; }, 2000);
+    });
+  }
+</script>

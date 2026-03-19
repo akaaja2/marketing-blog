@@ -7,6 +7,23 @@ module.exports = function (eleventyConfig) {
     return d.toLocaleDateString("en-GB");
   });
 
+  eleventyConfig.addPassthroughCopy("src/css");
+
+  eleventyConfig.addFilter("readingTime", function (content) {
+    const words = content.split(/\s+/).length;
+    return Math.ceil(words / 200) + " min read";
+  });
+
+  eleventyConfig.addCollection("tagList", function (collectionApi) {
+    const tagSet = new Set();
+    collectionApi.getAll().forEach(item => {
+      (item.data.tags || []).forEach(tag => {
+        if (tag !== "post") tagSet.add(tag);
+      });
+    });
+    return [...tagSet];
+  });
+
   return {
     dir: {
       input: "src",
