@@ -1,6 +1,8 @@
 ---
 title: "My First Claude-Published Post"
 description: "Testing end-to-end publishing via Claude Code"
+image: "/images/claude-powered-blog-setup.png"
+imageAlt: "Laptop on a clean desk showing a terminal interface with blue-tinted code"
 date: 2026-03-19
 tags: [post]
 layout: layouts/post.njk
