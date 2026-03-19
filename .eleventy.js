@@ -7,6 +7,9 @@ module.exports = function (eleventyConfig) {
     if (format === "MMMM dd, yyyy") {
       return d.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "2-digit" });
     }
+    if (format === "%Y-%m-%d") {
+      return d.toISOString().slice(0, 10);
+    }
     return d.toLocaleDateString("en-GB");
   });
 
