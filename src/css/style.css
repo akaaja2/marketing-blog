@@ -84,3 +84,39 @@ figcaption {
   font-size: 14px; color: var(--muted);
   text-align: center; margin-top: -16px; margin-bottom: 24px;
 }
+
+/* Dark mode — system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: #1e293b;
+  }
+}
+/* Dark mode — manual override */
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --border: #1e293b;
+}
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+/* Toggle button */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1;
+  margin-left: 16px;
+}
+.theme-toggle:hover { color: var(--text); }
