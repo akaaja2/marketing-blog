@@ -1,6 +1,8 @@
 ---
 title: "How I Built a Claude-Powered Blog in a Single Day (And What Actually Went Wrong)"
 description: "The architecture, the stack decisions, the messy MCP setup, and how a single CLAUDE.md file changed everything."
+image: "/images/building-claude-powered-blog.png"
+imageAlt: "Cartoon illustration showing chat to Git push to live blog deployment pipeline"
 date: 2026-03-19
 tags: [post, behind-the-scenes, ai-tools, claude-code]
 layout: layouts/post.njk
