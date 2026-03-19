@@ -120,3 +120,21 @@ figcaption {
   margin-left: 16px;
 }
 .theme-toggle:hover { color: var(--text); }
+
+.related-posts {
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+.related-posts h3 {
+  font-size: 18px;
+  margin: 0;
+  color: var(--text);
+}
+.related-posts .post-card {
+  border-bottom: 1px solid var(--border);
+}
+.related-posts .post-card:last-child {
+  border-bottom: none;
+}

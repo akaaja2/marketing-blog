@@ -20,6 +20,17 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/favicon.svg");
   eleventyConfig.addPassthroughCopy("src/images");
 
+  eleventyConfig.addFilter("relatedPosts", function(allPosts, currentTags, currentUrl) {
+    if (!currentTags || !allPosts) return [];
+    return allPosts
+      .filter(post =>
+        post.url !== currentUrl &&
+        post.data.tags &&
+        post.data.tags.some(tag => currentTags.includes(tag))
+      )
+      .slice(0, 3);
+  });
+
   eleventyConfig.addFilter("readingTime", function (content) {
     const words = content.split(/\s+/).length;
     return Math.ceil(words / 200) + " min read";

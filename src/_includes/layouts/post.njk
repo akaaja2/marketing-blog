@@ -24,6 +24,30 @@ layout: layouts/base.njk
   <div class="post-content">
     {{ content | safe }}
   </div>
+  {% set related = collections.post | relatedPosts(tags, page.url) %}
+  {% if related.length %}
+  <div class="related-posts">
+    <h3>Related posts</h3>
+    <ul class="post-list" style="margin-top: 16px;">
+      {% for post in related %}
+      <li class="post-card" style="padding: 20px 0;">
+        <h4 style="font-size: 18px; margin: 0 0 6px;">
+          <a href="{{ post.url }}" style="color: var(--text);">
+            {{ post.data.title }}
+          </a>
+        </h4>
+        <div class="post-meta">
+          {{ post.date | date("%B %d, %Y") }}
+          &middot; {{ post.content | readingTime }}
+        </div>
+        {% if post.data.description %}
+        <p class="post-description">{{ post.data.description }}</p>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
   <div class="share-section">
     <p>Share this post</p>
     <div class="share-links">
