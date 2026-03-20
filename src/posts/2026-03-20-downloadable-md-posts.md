@@ -84,3 +84,5 @@ It also quietly makes every post a distributable template. If you write a struct
 Push to GitHub, let Netlify rebuild, and test by hitting `/downloads/[your-test-slug].md` directly in the browser. If the file downloads rather than renders, you're done.
 
 The whole change is two files and three lines of code. Ship it.
+
+{% downloadLink "2026-03-20-downloadable-md-posts.md", "Download this post as Markdown" %}
