@@ -51,7 +51,7 @@ layout: layouts/base.njk
   {% if downloadable %}
   <div class="share-section" style="padding-bottom: 0;">
     <div class="share-links">
-      <a href="/downloads/{{ page.fileSlug }}.md" download>Download .md</a>
+      <a href="/downloads/{{ page.filePathStem | replace("/posts/", "") }}.md" download>Download .md</a>
     </div>
   </div>
   {% endif %}
