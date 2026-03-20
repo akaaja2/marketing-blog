@@ -20,6 +20,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/favicon.svg");
   eleventyConfig.addPassthroughCopy("src/images");
   eleventyConfig.addPassthroughCopy({ "src/posts/*.md": "downloads" });
+  eleventyConfig.addPassthroughCopy("src/downloads");
+
+  eleventyConfig.addShortcode("downloadLink", function(filename, label) {
+    return `<a href="/downloads/${filename}" download class="download-link">${label}</a>`;
+  });
 
   eleventyConfig.addFilter("relatedPosts", function(allPosts, currentTags, currentUrl) {
     if (!currentTags || !allPosts) return [];

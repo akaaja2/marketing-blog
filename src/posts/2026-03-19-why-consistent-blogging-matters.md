@@ -38,3 +38,5 @@ The blogs I've found most valuable all have one thing in common: I can tell that
 You don't need to publish daily. You need to publish predictably. Pick a cadence you can sustain — weekly, fortnightly, monthly — and protect it. A realistic schedule you keep beats an ambitious one you abandon.
 
 Show up. Keep going. The audience will come.
+
+{% downloadLink "test-skill.md", "Download this skill" %}
