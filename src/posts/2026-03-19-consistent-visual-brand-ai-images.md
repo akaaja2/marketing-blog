@@ -4,6 +4,15 @@ description: "Why random stock photos make blogs feel generic, how we defined a 
 date: 2026-03-19
 tags: [post, behind-the-scenes, ai-tools, visual-design]
 layout: layouts/post.njk
+showCarousel: true
+carouselSlides:
+  - /images/carousels/how-to-make-branded-carousels/slide-01-cover.png
+  - /images/carousels/how-to-make-branded-carousels/slide-02.png
+  - /images/carousels/how-to-make-branded-carousels/slide-03.png
+  - /images/carousels/how-to-make-branded-carousels/slide-04.png
+  - /images/carousels/how-to-make-branded-carousels/slide-05.png
+  - /images/carousels/how-to-make-branded-carousels/slide-06.png
+  - /images/carousels/how-to-make-branded-carousels/slide-07-cta.png
 image: "/images/consistent-visual-brand-ai-images.png"
 imageAlt: "Cartoon robot going from confused mismatched images to a consistent illustrated style"
 ---

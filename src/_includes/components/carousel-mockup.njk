@@ -1,0 +1,105 @@
+<div class="carousel-mockup-wrap" tabindex="0" aria-label="Instagram carousel mockup, use arrow keys to navigate">
+  <button class="carousel-arrow carousel-arrow--prev" aria-label="Previous slide">&#8249;</button>
+
+  <div class="phone-frame">
+    <div class="phone-screen-inner">
+
+      <div class="phone-status-bar">
+        <div class="phone-camera-dot"></div>
+      </div>
+
+      <div class="ig-header">
+        <div class="ig-avatar" aria-hidden="true"></div>
+        <span class="ig-username">claude4marketing</span>
+        <span class="ig-verified" aria-hidden="true" title="Verified"></span>
+      </div>
+
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          {% for slide in carouselSlides %}
+          <div class="carousel-slide" aria-label="Slide {{ loop.index }} of {{ carouselSlides | length }}">
+            <img src="{{ slide }}" alt="Carousel slide {{ loop.index }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="carousel-dots" role="tablist" aria-label="Slide navigation">
+        {% for slide in carouselSlides %}
+        <button
+          class="carousel-dot{% if loop.first %} active{% endif %}"
+          data-index="{{ loop.index0 }}"
+          role="tab"
+          aria-selected="{{ 'true' if loop.first else 'false' }}"
+          aria-label="Slide {{ loop.index }}">
+        </button>
+        {% endfor %}
+      </div>
+
+      <div class="phone-home-bar-wrap">
+        <div class="phone-home-bar"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="carousel-arrow carousel-arrow--next" aria-label="Next slide">&#8250;</button>
+
+  <noscript>
+    <p class="carousel-noscript">Enable JavaScript to browse all {{ carouselSlides | length }} slides.</p>
+  </noscript>
+</div>
+
+<script>
+(function () {
+  function initCarousel(wrap) {
+    var track    = wrap.querySelector('.carousel-track');
+    var dots     = wrap.querySelectorAll('.carousel-dot');
+    var prevBtn  = wrap.querySelector('.carousel-arrow--prev');
+    var nextBtn  = wrap.querySelector('.carousel-arrow--next');
+    var viewport = wrap.querySelector('.carousel-viewport');
+    var total    = dots.length;
+    var current  = 0;
+
+    if (!track || !total) return;
+
+    function goTo(index) {
+      current = ((index % total) + total) % total;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === current);
+        dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      });
+    }
+
+    prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goTo(parseInt(dot.getAttribute('data-index'), 10));
+      });
+    });
+
+    // Touch / swipe
+    var touchStartX = 0;
+    viewport.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    viewport.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        goTo(diff > 0 ? current + 1 : current - 1);
+      }
+    }, { passive: true });
+
+    // Keyboard — only when this mockup is focused
+    wrap.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+    });
+  }
+
+  document.querySelectorAll('.carousel-mockup-wrap').forEach(initCarousel);
+}());
+</script>
