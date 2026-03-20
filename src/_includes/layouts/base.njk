@@ -50,7 +50,17 @@
   <footer class="site-footer">
     <div class="container">© 2026 Claude4Marketing</div>
   </footer>
+<button id="back-to-top" aria-label="Back to top">↑</button>
 <script>
+  // Back to top
+  const backToTop = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 400);
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   const toggle = document.getElementById('theme-toggle');
   const html = document.documentElement;
   // Apply saved preference on load
