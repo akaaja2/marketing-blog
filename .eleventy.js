@@ -1,7 +1,40 @@
 const pluginRss = require("@11ty/eleventy-plugin-rss");
+const Image = require("@11ty/eleventy-img");
+const path = require("path");
+
+async function imageShortcode(src, alt, cls = "post-hero") {
+  const isExternal = src.startsWith("http://") || src.startsWith("https://");
+  if (isExternal) {
+    return `<img src="${src}" alt="${alt}" class="${cls}" loading="lazy">`;
+  }
+
+  const localSrc = path.join("src", src);
+  const metadata = await Image(localSrc, {
+    widths: [400, 800, 1200],
+    formats: ["webp", "jpeg"],
+    outputDir: "./_site/images/",
+    urlPath: "/images/",
+    filenameFormat: function (id, src, width, format) {
+      const ext = path.extname(src);
+      const name = path.basename(src, ext);
+      return `${name}-${width}.${format}`;
+    },
+  });
+
+  const imageAttributes = {
+    alt,
+    class: cls,
+    sizes: "(max-width: 600px) 400px, (max-width: 1000px) 800px, 1200px",
+    loading: "lazy",
+    decoding: "async",
+  };
+
+  return Image.generateHTML(metadata, imageAttributes);
+}
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addAsyncShortcode("optimizedImage", imageShortcode);
   eleventyConfig.addFilter("date", (dateVal, format) => {
     const d = new Date(dateVal);
     if (format === "%B %d, %Y") {
