@@ -19,6 +19,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/favicon.svg");
   eleventyConfig.addPassthroughCopy("src/images");
+  eleventyConfig.addPassthroughCopy({ "src/posts/*.md": "downloads" });
 
   eleventyConfig.addFilter("relatedPosts", function(allPosts, currentTags, currentUrl) {
     if (!currentTags || !allPosts) return [];

@@ -4,6 +4,7 @@ description: "Consistency is the unsexy secret behind every blog that actually g
 date: 2026-03-19
 tags: [post]
 layout: layouts/post.njk
+downloadable: true
 ---
 
 Everyone wants a loyal readership. Few people want to show up every week to earn one. That gap is exactly why consistency is the most underrated lever in audience growth.

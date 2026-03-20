@@ -48,6 +48,13 @@ layout: layouts/base.njk
     </ul>
   </div>
   {% endif %}
+  {% if downloadable %}
+  <div class="share-section" style="padding-bottom: 0;">
+    <div class="share-links">
+      <a href="/downloads/{{ page.fileSlug }}.md" download>Download .md</a>
+    </div>
+  </div>
+  {% endif %}
   <div class="share-section">
     <p>Share this post</p>
     <div class="share-links">
