@@ -2,7 +2,7 @@
 title: "Let Readers Download Your Raw Markdown"
 date: 2026-03-20
 description: "A tiny 11ty feature that makes every blog post a living document — one passthrough rule and a download link and you're done."
-tags: ["11ty", "tutorial", "blog"]
+tags: ["post", "11ty", "tutorial", "blog"]
 image: "/images/downloadable-md-posts.png"
 imageAlt: "Three-panel illustration showing a blog post, the mascot robot copying a file, and a reader's laptop with a downloaded markdown document"
 downloadable: true
