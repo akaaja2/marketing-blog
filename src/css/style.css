@@ -55,6 +55,18 @@ nav a:hover { color: var(--accent); text-decoration: none; }
 .post-content code { font-size: 15px; }
 .post-content blockquote { border-left: 3px solid var(--accent); margin: 0; padding-left: 20px; color: var(--muted); }
 
+/* Reactions */
+.reactions { text-align: center; margin: 48px 0 32px; }
+.reactions-label { font-size: 13px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+.reaction-buttons { display: flex; justify-content: center; gap: 12px; }
+.reaction-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); cursor: pointer; transition: border-color 0.15s, transform 0.1s; font-family: inherit; }
+.reaction-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+.reaction-btn.reacted { border-color: var(--accent); background: #eff6ff; }
+[data-theme="dark"] .reaction-btn.reacted { background: #1e3a5f; }
+@media (prefers-color-scheme: dark) { .reaction-btn.reacted { background: #1e3a5f; } }
+.reaction-emoji { font-size: 22px; line-height: 1; }
+.reaction-count { font-size: 13px; color: var(--muted); font-weight: 500; }
+
 /* Post nav */
 .post-nav { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--border); padding-top: 24px; margin-top: 48px; }
 .post-nav-prev, .post-nav-next { display: flex; flex-direction: column; gap: 4px; max-width: 45%; }
@@ -113,18 +125,10 @@ figcaption {
   --muted: #94a3b8;
   --border: #1e293b;
 }
-[data-theme="dark"] .post-content pre,
-[data-theme="dark"] .post-content code {
-  background: #1e293b;
-  color: #f1f5f9;
-}
-@media (prefers-color-scheme: dark) {
-  .post-content pre,
-  .post-content code {
-    background: #1e293b;
-    color: #f1f5f9;
-  }
-}
+/* Prism: let our CSS own the background; Prism owns the token colours */
+pre[class*="language-"], code[class*="language-"] { background: transparent !important; text-shadow: none !important; }
+[data-theme="dark"] .post-content pre { background: #1e293b; }
+@media (prefers-color-scheme: dark) { .post-content pre { background: #1e293b; } }
 [data-theme="light"] {
   --bg: #ffffff;
   --text: #1a1a1a;
