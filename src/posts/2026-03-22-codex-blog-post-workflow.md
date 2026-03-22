@@ -4,6 +4,8 @@ description: "A short conversation turned into a reusable Codex workflow for wri
 date: 2026-03-22
 tags: ["post", "codex", "workflow", "blogging", "eleventy"]
 layout: "layouts/post.njk"
+image: "/images/codex-blog-post-workflow.svg"
+imageAlt: "Three-panel vector illustration showing Codex reading instructions, drafting a blog post, and publishing to a live site beneath a TEST IMAGE banner"
 takeaways:
   - A good Codex prompt starts by pointing at the repo's source-of-truth instructions.
   - The publishing workflow is simple when the filename, frontmatter, and build steps are fixed.

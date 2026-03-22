@@ -1,0 +1,60 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#FFFFFF"/>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="18" markerHeight="18" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12V0Z" fill="#2563EB" stroke="#111111" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <g stroke="#111111" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="85" y="165" width="395" height="545" rx="36" fill="#F8FAFC"/>
+    <rect x="602" y="165" width="395" height="545" rx="36" fill="#F8FAFC"/>
+    <rect x="1119" y="165" width="395" height="545" rx="36" fill="#F8FAFC"/>
+
+    <path d="M481 436C530 436 548 436 594 436" stroke="#2563EB" marker-end="url(#arrowhead)"/>
+    <path d="M997 436C1044 436 1061 436 1108 436" stroke="#2563EB" marker-end="url(#arrowhead)"/>
+
+    <circle cx="279" cy="284" r="62" fill="#FFF7B8"/>
+    <circle cx="256" cy="272" r="11" fill="#111111"/>
+    <circle cx="302" cy="272" r="11" fill="#111111"/>
+    <path d="M244 312C255 329 275 339 292 339C309 339 323 330 334 315" fill="none"/>
+    <rect x="205" y="351" width="148" height="172" rx="26" fill="#DCFCE7"/>
+    <path d="M279 523V585"/>
+    <path d="M229 565H329"/>
+    <path d="M229 391H329"/>
+    <path d="M205 430H353"/>
+
+    <rect x="180" y="560" width="198" height="88" rx="22" fill="#FFFFFF"/>
+    <rect x="204" y="583" width="150" height="12" rx="6" fill="#2563EB" stroke="none"/>
+    <rect x="204" y="607" width="113" height="12" rx="6" fill="#FACC15" stroke="none"/>
+
+    <circle cx="770" cy="266" r="56" fill="#E0F2FE"/>
+    <rect x="684" y="360" width="230" height="176" rx="28" fill="#FFFFFF"/>
+    <rect x="718" y="397" width="162" height="16" rx="8" fill="#2563EB" stroke="none"/>
+    <rect x="718" y="433" width="125" height="16" rx="8" fill="#FACC15" stroke="none"/>
+    <rect x="718" y="469" width="149" height="16" rx="8" fill="#86EFAC" stroke="none"/>
+    <path d="M770 322V360"/>
+    <path d="M770 536V590"/>
+    <circle cx="770" cy="620" r="13" fill="#2563EB"/>
+    <circle cx="818" cy="620" r="13" fill="#FACC15"/>
+    <circle cx="722" cy="620" r="13" fill="#86EFAC"/>
+
+    <rect x="1188" y="238" width="257" height="333" rx="30" fill="#FFFFFF"/>
+    <rect x="1218" y="278" width="197" height="18" rx="9" fill="#2563EB" stroke="none"/>
+    <rect x="1218" y="320" width="156" height="18" rx="9" fill="#86EFAC" stroke="none"/>
+    <rect x="1218" y="362" width="176" height="18" rx="9" fill="#FACC15" stroke="none"/>
+    <rect x="1218" y="404" width="133" height="18" rx="9" fill="#2563EB" stroke="none"/>
+    <path d="M1316 571V645"/>
+    <path d="M1257 645H1375"/>
+
+    <path d="M1270 175L1284 143L1299 175" fill="#FACC15"/>
+    <path d="M1350 168L1363 139L1377 168" fill="#FACC15"/>
+    <path d="M1430 182L1442 156L1454 182" fill="#FACC15"/>
+  </g>
+
+  <g>
+    <rect x="513" y="60" width="574" height="92" rx="28" fill="#111111"/>
+    <text x="800" y="118" fill="#FFFFFF" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700" text-anchor="middle">TEST IMAGE</text>
+  </g>
+</svg>
