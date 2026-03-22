@@ -69,32 +69,6 @@ layout: layouts/base.njk
     </div>
   </div>
 
-  {% set ns = namespace(prev=null, next=null, found=false) %}
-  {% for post in collections.post %}
-    {% if post.url == page.url %}
-      {% set ns.found = true %}
-    {% elif not ns.found %}
-      {% set ns.prev = post %}
-    {% elif ns.found and not ns.next %}
-      {% set ns.next = post %}
-    {% endif %}
-  {% endfor %}
-  {% if ns.prev or ns.next %}
-  <nav class="post-nav">
-    <div class="post-nav-prev">
-      {% if ns.prev %}
-        <span class="post-nav-label">← Previous</span>
-        <a href="{{ ns.prev.url }}">{{ ns.prev.data.title }}</a>
-      {% endif %}
-    </div>
-    <div class="post-nav-next">
-      {% if ns.next %}
-        <span class="post-nav-label">Next →</span>
-        <a href="{{ ns.next.url }}">{{ ns.next.data.title }}</a>
-      {% endif %}
-    </div>
-  </nav>
-  {% endif %}
   <div class="share-section">
     <p>Share this post</p>
     <div class="share-links">

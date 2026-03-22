@@ -1,0 +1,37 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}{\f1 Courier New;}}
+\paperw12240\paperh15840\margl432\margr432\margt360\margb360
+\fs18
+\pard\f0\b\fs34 Claude4Marketing\par
+\pard\sa80\b0\fs19 A one-page repo summary\par
+
+\pard\sa70\b What it is\par
+\pard\b0\sa110\fs18 Claude4Marketing is a marketing-focused blog site built with 11ty (Eleventy) and managed largely through Claude Code. Repo evidence shows a static publishing workflow built from Markdown, Nunjucks templates, Pagefind search indexing, and Netlify deployment.\par
+
+\pard\sa70\b Who it's for\par
+\pard\b0\sa110\fs18 Primary persona: marketers and builders experimenting with AI-assisted publishing, content workflows, and Claude-based marketing tools.\par
+
+\pard\sa70\b What it does\par
+\pard\li360\fi-180\sa45\b0\fs18\'95 Publishes Markdown posts from {\f1 src/posts/}{\f0 .}\par
+\pard\li360\fi-180\sa45\'95 Renders a homepage with post cards, dates, tags, and reading-time estimates.\par
+\pard\li360\fi-180\sa45\'95 Builds individual post pages with related posts, share links, and syntax highlighting.\par
+\pard\li360\fi-180\sa45\'95 Generates tag pages, RSS feed, sitemap, robots.txt, and a custom 404 page.\par
+\pard\li360\fi-180\sa45\'95 Provides client-side search through Pagefind on {\f1 /search/}{\f0 .}\par
+\pard\li360\fi-180\sa45\'95 Supports downloadable Markdown files via copied assets in {\f1 /downloads/}{\f0 .}\par
+\pard\li360\fi-180\sa90\'95 Adds browser-side post reactions backed by Supabase reads/RPC calls.\par
+
+\pard\sa70\b How it works\par
+\pard\b0\sa45\fs18 Content: Markdown posts plus site metadata in {\f1 src/posts/}{\f0  and {\f1 src/_data/metadata.json}{\f0 .}\par
+\pard\sa45 Build: {\f1 .eleventy.js}{\f0  adds RSS, date and reading-time filters, related-post logic, a tag collection, and passthrough copies for CSS, images, downloads, and post files.\par
+\pard\sa45 Templates: Nunjucks layouts and page templates in {\f1 src/_includes/}{\f0  and {\f1 src/*.njk}{\f0  render the main routes.\par
+\pard\sa45 Search flow: {\f1 npm run build}{\f0  runs Eleventy first, then Pagefind indexes {\f1 _site/}{\f0  for the browser search UI.\par
+\pard\sa45 Runtime flow: Browser loads static HTML/CSS/JS; post pages also call Supabase directly for reaction counts.\par
+\pard\sa90 Deploy: {\f1 netlify.toml}{\f0  sets {\f1 npm run build}{\f0  and publishes {\f1 _site}{\f0 . Not found in repo: automated tests, a separate backend service, or an admin/CMS app.\par
+
+\pard\sa70\b How to run\par
+\pard\li300\sa45\b0\fs18 1. Run {\f1 npm install}{\f0  to install dependencies.\par
+\pard\li300\sa45 2. Run {\f1 npm start}{\f0  to start the local 11ty dev server.\par
+\pard\li300\sa45 3. Run {\f1 npm run build}{\f0  to create production output and Pagefind assets.\par
+\pard\li300\sa45 4. Serve or deploy the generated site from {\f1 _site/}{\f0 .\par
+}
+
