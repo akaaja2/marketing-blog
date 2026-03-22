@@ -1,3 +1,4 @@
+{% set slides = carouselRenderSlides or carouselSlides %}
 <div class="carousel-mockup-wrap" tabindex="0" aria-label="Instagram carousel mockup, use arrow keys to navigate">
   <button class="carousel-arrow carousel-arrow--prev" aria-label="Previous slide">&#8249;</button>
 
@@ -16,8 +17,8 @@
 
       <div class="carousel-viewport">
         <div class="carousel-track">
-          {% for slide in carouselSlides %}
-          <div class="carousel-slide" aria-label="Slide {{ loop.index }} of {{ carouselSlides | length }}">
+          {% for slide in slides %}
+          <div class="carousel-slide" aria-label="Slide {{ loop.index }} of {{ slides | length }}">
             <img src="{{ slide }}" alt="Carousel slide {{ loop.index }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
           </div>
           {% endfor %}
@@ -25,7 +26,7 @@
       </div>
 
       <div class="carousel-dots" role="tablist" aria-label="Slide navigation">
-        {% for slide in carouselSlides %}
+        {% for slide in slides %}
         <button
           class="carousel-dot{% if loop.first %} active{% endif %}"
           data-index="{{ loop.index0 }}"
@@ -46,7 +47,7 @@
   <button class="carousel-arrow carousel-arrow--next" aria-label="Next slide">&#8250;</button>
 
   <noscript>
-    <p class="carousel-noscript">Enable JavaScript to browse all {{ carouselSlides | length }} slides.</p>
+    <p class="carousel-noscript">Enable JavaScript to browse all {{ slides | length }} slides.</p>
   </noscript>
 </div>
 

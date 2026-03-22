@@ -16,7 +16,7 @@
   {% else %}
   <meta property="og:type" content="website">
   {% endif %}
-  {% if image %}
+  {% if image and (image | assetExists) %}
   <meta property="og:image" content="{{ metadata.url }}{{ image }}">
   {% endif %}
   <!-- Twitter -->

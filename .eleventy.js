@@ -1,6 +1,16 @@
+const fs = require("fs");
+const path = require("path");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 module.exports = function (eleventyConfig) {
+  function getSourceAssetPath(assetUrl) {
+    if (typeof assetUrl !== "string" || !assetUrl.startsWith("/")) {
+      return null;
+    }
+
+    return path.join(process.cwd(), "src", ...assetUrl.slice(1).split("/"));
+  }
+
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addFilter("date", (dateVal, format) => {
     const d = new Date(dateVal);
@@ -40,6 +50,19 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("readingTime", function (content) {
     const words = content.split(/\s+/).length;
     return Math.ceil(words / 200) + " min read";
+  });
+
+  eleventyConfig.addFilter("assetExists", function (assetUrl) {
+    const assetPath = getSourceAssetPath(assetUrl);
+    return assetPath ? fs.existsSync(assetPath) : false;
+  });
+
+  eleventyConfig.addFilter("existingAssets", function (assetUrls) {
+    if (!Array.isArray(assetUrls)) return [];
+    return assetUrls.filter(assetUrl => {
+      const assetPath = getSourceAssetPath(assetUrl);
+      return assetPath ? fs.existsSync(assetPath) : false;
+    });
   });
 
   eleventyConfig.addCollection("tagList", function (collectionApi) {
