@@ -1,6 +1,8 @@
 {% set slides = carouselRenderSlides or carouselSlides %}
 <div class="carousel-mockup-wrap" tabindex="0" aria-label="Instagram carousel mockup, use arrow keys to navigate">
+  {% if slides.length %}
   <button class="carousel-arrow carousel-arrow--prev" aria-label="Previous slide">&#8249;</button>
+  {% endif %}
 
   <div class="phone-frame">
     <div class="phone-screen-inner">
@@ -16,6 +18,7 @@
       </div>
 
       <div class="carousel-viewport">
+        {% if slides.length %}
         <div class="carousel-track">
           {% for slide in slides %}
           <div class="carousel-slide" aria-label="Slide {{ loop.index }} of {{ slides | length }}">
@@ -23,8 +26,16 @@
           </div>
           {% endfor %}
         </div>
+        {% else %}
+        <div class="carousel-placeholder">
+          <p class="carousel-placeholder-label">Instagram carousel preview</p>
+          <h3>Phone mockup is ready</h3>
+          <p>Slide image files for this post are missing, so the preview is showing a placeholder instead of broken images.</p>
+        </div>
+        {% endif %}
       </div>
 
+      {% if slides.length %}
       <div class="carousel-dots" role="tablist" aria-label="Slide navigation">
         {% for slide in slides %}
         <button
@@ -36,6 +47,7 @@
         </button>
         {% endfor %}
       </div>
+      {% endif %}
 
       <div class="phone-home-bar-wrap">
         <div class="phone-home-bar"></div>
@@ -44,11 +56,15 @@
     </div>
   </div>
 
+  {% if slides.length %}
   <button class="carousel-arrow carousel-arrow--next" aria-label="Next slide">&#8250;</button>
+  {% endif %}
 
+  {% if slides.length %}
   <noscript>
     <p class="carousel-noscript">Enable JavaScript to browse all {{ slides | length }} slides.</p>
   </noscript>
+  {% endif %}
 </div>
 
 <script>

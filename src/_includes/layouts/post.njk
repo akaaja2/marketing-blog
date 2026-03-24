@@ -26,7 +26,7 @@ layout: layouts/base.njk
   </div>
 
   {% set carouselRenderSlides = carouselSlides | existingAssets %}
-  {% if showCarousel and carouselRenderSlides.length %}
+  {% if showCarousel %}
     {% include "components/carousel-mockup.njk" %}
   {% endif %}
 
