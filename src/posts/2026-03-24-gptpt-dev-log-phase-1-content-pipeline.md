@@ -4,6 +4,8 @@ description: "How I built an end-to-end content pipeline from Notion brief to sc
 date: 2026-03-24
 tags: [post, ai-tools, behind-the-scenes]
 layout: layouts/post.njk
+image: "/images/gptpt-phase-1-pipeline.png"
+imageAlt: "Diagram showing the Phase 1 content pipeline: Notion to Playwright slide rendering to Claude API caption generation to Buffer"
 takeaways:
   - Notion MCP handles the content brief, status updates, and post date writes — no copy-pasting
   - Playwright renders five 1080×1080 carousel slides from HTML in under 10 seconds
