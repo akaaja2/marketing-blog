@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cobb-Douglas: Isoquant / Isocost Explorer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 0.35rem; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 1.5rem; }
+
+  .cd-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .cd-btn {
+    font-size: 12px; padding: 4px 12px; border-radius: 8px;
+    border: 0.5px solid #bbb; background: transparent;
+    cursor: pointer; color: #555;
+  }
+  .cd-btn.active { background: #f0f0f0; color: #111; font-weight: 500; }
+
+  .cd-controls {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px 20px; margin-bottom: 1.25rem;
+  }
+  .cd-row { display: flex; align-items: center; gap: 8px; }
+  .cd-lbl { font-size: 12px; color: #666; width: 100px; flex-shrink: 0; }
+  .cd-val { font-size: 13px; font-weight: 500; min-width: 34px; text-align: right; color: #111; }
+
+  .cd-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin-bottom: 1.25rem;
+  }
+  .cd-metric {
+    background: #f5f5f5; border-radius: 8px; padding: 10px 12px;
+  }
+  .cd-metric-lbl { font-size: 11px; color: #666; margin-bottom: 3px; }
+  .cd-metric-val { font-size: 18px; font-weight: 500; color: #111; }
+
+  input[type=range] { flex: 1; accent-color: #3266ad; }
+
+  .cd-legend { display: flex; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
+  .cd-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
+  .cd-leg-line { height: 2px; width: 18px; border-radius: 1px; }
+
+  canvas { display: block; width: 100%; border-radius: 8px; }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #1a1a1a; color: #e8e8e8; }
+    .cd-btn { border-color: #555; color: #aaa; }
+    .cd-btn.active { background: #2a2a2a; color: #e8e8e8; }
+    .cd-lbl, .subtitle { color: #aaa; }
+    .cd-val, .cd-metric-val { color: #e8e8e8; }
+    .cd-metric { background: #2a2a2a; }
+    .cd-metric-lbl { color: #aaa; }
+    .cd-leg-item { color: #aaa; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Cobb-Douglas: Isoquant / Isocost Explorer</h1>
+<p class="subtitle">Y = A · K<sup>α</sup> · L<sup>β</sup> &nbsp;|&nbsp; Cost minimisation via Lagrangian &nbsp;|&nbsp; Slutsky decomposition</p>
+
+<div class="cd-toggle">
+  <button class="cd-btn active" id="btn-basic" onclick="setMode('basic')">Isoquant / isocost</button>
+  <button class="cd-btn" id="btn-slutsky" onclick="setMode('slutsky')">Slutsky decomposition</button>
+</div>
+
+<div class="cd-controls">
+  <div class="cd-row">
+    <span class="cd-lbl">wage <i>w</i></span>
+    <input type="range" min="0.4" max="4" step="0.1" value="1.5" id="sl-w">
+    <span class="cd-val" id="v-w">1.5</span>
+  </div>
+  <div class="cd-row">
+    <span class="cd-lbl">capital cost <i>r</i></span>
+    <input type="range" min="0.4" max="4" step="0.1" value="2.0" id="sl-r">
+    <span class="cd-val" id="v-r">2.0</span>
+  </div>
+  <div class="cd-row">
+    <span class="cd-lbl">α (capital)</span>
+    <input type="range" min="0.05" max="0.95" step="0.05" value="0.30" id="sl-alpha">
+    <span class="cd-val" id="v-alpha">0.30</span>
+  </div>
+  <div class="cd-row">
+    <span class="cd-lbl">β (labour)</span>
+    <input type="range" min="0.05" max="0.95" step="0.05" value="0.70" id="sl-beta">
+    <span class="cd-val" id="v-beta">0.70</span>
+  </div>
+  <div class="cd-row" id="row-w2" style="display:none;">
+    <span class="cd-lbl">new wage <i>w′</i></span>
+    <input type="range" min="0.4" max="4" step="0.1" value="2.5" id="sl-w2">
+    <span class="cd-val" id="v-w2">2.5</span>
+  </div>
+</div>
+
+<div class="cd-metrics">
+  <div class="cd-metric">
+    <div class="cd-metric-lbl">L* (labour)</div>
+    <div class="cd-metric-val" id="m-L">—</div>
+  </div>
+  <div class="cd-metric">
+    <div class="cd-metric-lbl">K* (capital)</div>
+    <div class="cd-metric-val" id="m-K">—</div>
+  </div>
+  <div class="cd-metric">
+    <div class="cd-metric-lbl">min cost C*</div>
+    <div class="cd-metric-val" id="m-C">—</div>
+  </div>
+  <div class="cd-metric">
+    <div class="cd-metric-lbl">α + β (RTS)</div>
+    <div class="cd-metric-val" id="m-rts">—</div>
+  </div>
+</div>
+
+<canvas id="cd-canvas"></canvas>
+
+<div class="cd-legend" id="legend-basic">
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#3266ad;"></span>isoquant Y₀</span>
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#3266ad; opacity:0.3;"></span>½Y₀ &amp; 2Y₀</span>
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#d85a30;"></span>isocost C*</span>
+  <span class="cd-leg-item" style="gap:6px;">
+    <span style="width:8px;height:8px;border-radius:50%;background:#1d9e75;display:inline-block;"></span>optimum (L*, K*)
+  </span>
+</div>
+<div class="cd-legend" id="legend-slutsky" style="display:none;">
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#3266ad;"></span>original isoquant</span>
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#d85a30;"></span>original isocost</span>
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#9b59b6;"></span>compensated (subst.)</span>
+  <span class="cd-leg-item"><span class="cd-leg-line" style="background:#e67e22;"></span>new isocost</span>
+  <span class="cd-leg-item" style="gap:6px;">
+    <span style="width:8px;height:8px;border-radius:50%;background:#1d9e75;display:inline-block;"></span>A = original &nbsp;
+    <span style="width:8px;height:8px;border-radius:50%;background:#9b59b6;display:inline-block;"></span>B = substitution &nbsp;
+    <span style="width:8px;height:8px;border-radius:50%;background:#e67e22;display:inline-block;"></span>C = scale
+  </span>
+</div>
+
+<script>
+const canvas = document.getElementById('cd-canvas');
+const ctx = canvas.getContext('2d');
+const A = 1.0, Y0 = 2.0;
+const LMAX = 9, KMAX = 9;
+const PAD = { left: 44, right: 16, top: 16, bottom: 36 };
+let mode = 'basic';
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-basic').className = 'cd-btn' + (m==='basic'?' active':'');
+  document.getElementById('btn-slutsky').className = 'cd-btn' + (m==='slutsky'?' active':'');
+  document.getElementById('row-w2').style.display = m === 'slutsky' ? 'flex' : 'none';
+  document.getElementById('legend-basic').style.display = m === 'basic' ? 'flex' : 'none';
+  document.getElementById('legend-slutsky').style.display = m === 'slutsky' ? 'flex' : 'none';
+  draw();
+}
+
+function p() {
+  return {
+    w: +document.getElementById('sl-w').value,
+    r: +document.getElementById('sl-r').value,
+    alpha: +document.getElementById('sl-alpha').value,
+    beta: +document.getElementById('sl-beta').value,
+    w2: +document.getElementById('sl-w2').value,
+  };
+}
+
+function optimal(w, r, alpha, beta, Y) {
+  const ab = alpha + beta;
+  const ratio = (alpha * w) / (beta * r);
+  const Ls = Math.pow(Y / A, 1/ab) * Math.pow(ratio, -alpha/ab);
+  const Ks = Math.pow(Y / A, 1/ab) * Math.pow(ratio, beta/ab);
+  return { L: Ls, K: Ks, C: w * Ls + r * Ks };
+}
+
+function tx(L, W) { return PAD.left + (L / LMAX) * (W - PAD.left - PAD.right); }
+function ty(K, H) { return H - PAD.bottom - (K / KMAX) * (H - PAD.top - PAD.bottom); }
+
+function drawIQ(Y, alpha, beta, color, lw, dash, W, H) {
+  ctx.beginPath(); ctx.setLineDash(dash||[]); ctx.strokeStyle = color; ctx.lineWidth = lw||1.5;
+  let s = false;
+  for (let i = 0; i <= 300; i++) {
+    const L = 0.04 + (i/300)*(LMAX-0.04);
+    const Kv = Math.pow(Y/(A*Math.pow(L,beta)), 1/alpha);
+    if (!isFinite(Kv) || Kv < 0 || Kv > KMAX*1.1) { s=false; continue; }
+    const x = tx(L,W), y = ty(Kv,H);
+    s ? ctx.lineTo(x,y) : (ctx.moveTo(x,y), s=true);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+}
+
+function drawIC(C, w, r, color, lw, dash, W, H) {
+  ctx.beginPath(); ctx.setLineDash(dash||[]); ctx.strokeStyle = color; ctx.lineWidth = lw||1.8;
+  const L0=0, K0=C/r, L1=C/w, K1=0;
+  ctx.moveTo(tx(L0,W), ty(Math.min(K0,KMAX),H));
+  ctx.lineTo(tx(Math.min(L1,LMAX),W), ty(K1,H));
+  ctx.stroke(); ctx.setLineDash([]);
+}
+
+function dot(L, K, color, r, W, H) {
+  ctx.beginPath(); ctx.arc(tx(L,W), ty(K,H), r, 0, Math.PI*2);
+  ctx.fillStyle = color; ctx.fill();
+}
+
+function dropLines(L, K, col, W, H) {
+  ctx.setLineDash([3,3]); ctx.strokeStyle = col; ctx.lineWidth = 1;
+  const x=tx(L,W), y=ty(K,H);
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x, H-PAD.bottom); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(PAD.left, y); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function isoquantK_val(L, Y, alpha, beta) {
+  if (L <= 0) return null;
+  return Math.pow(Y / (A * Math.pow(L, beta)), 1/alpha);
+}
+
+function draw() {
+  const DPR = window.devicePixelRatio||1;
+  const W = canvas.offsetWidth, H = 360;
+  canvas.width = W*DPR; canvas.height = H*DPR;
+  ctx.scale(DPR, DPR);
+
+  const dk = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const tc = dk ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)';
+  const gc = dk ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+  const ac = dk ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+
+  ctx.clearRect(0,0,W,H);
+
+  for (let i=1;i<=LMAX;i++) { ctx.beginPath(); ctx.strokeStyle=gc; ctx.lineWidth=0.5; ctx.moveTo(tx(i,W),PAD.top); ctx.lineTo(tx(i,W),H-PAD.bottom); ctx.stroke(); }
+  for (let i=1;i<=KMAX;i++) { ctx.beginPath(); ctx.strokeStyle=gc; ctx.lineWidth=0.5; ctx.moveTo(PAD.left,ty(i,H)); ctx.lineTo(W-PAD.right,ty(i,H)); ctx.stroke(); }
+
+  ctx.beginPath(); ctx.strokeStyle=ac; ctx.lineWidth=1;
+  ctx.moveTo(PAD.left,PAD.top); ctx.lineTo(PAD.left,H-PAD.bottom); ctx.lineTo(W-PAD.right,H-PAD.bottom); ctx.stroke();
+
+  ctx.fillStyle=tc; ctx.font=`11px sans-serif`; ctx.textAlign='center';
+  for (let i=2;i<=LMAX;i+=2) ctx.fillText(i, tx(i,W), H-PAD.bottom+14);
+  ctx.textAlign='right';
+  for (let i=2;i<=KMAX;i+=2) ctx.fillText(i, PAD.left-6, ty(i,H)+4);
+
+  ctx.font='12px sans-serif'; ctx.textAlign='center'; ctx.fillStyle=tc;
+  ctx.fillText('Labour  L →', PAD.left + (W-PAD.left-PAD.right)/2, H-2);
+  ctx.save(); ctx.translate(11, PAD.top+(H-PAD.top-PAD.bottom)/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Capital  K →', 0, 0); ctx.restore();
+
+  const {w,r,alpha,beta,w2} = p();
+  const opt = optimal(w,r,alpha,beta,Y0);
+
+  document.getElementById('m-L').textContent = opt.L.toFixed(2);
+  document.getElementById('m-K').textContent = opt.K.toFixed(2);
+  document.getElementById('m-C').textContent = opt.C.toFixed(2);
+  document.getElementById('m-rts').textContent = (alpha+beta).toFixed(2);
+
+  if (mode === 'basic') {
+    drawIQ(Y0*0.5, alpha, beta, dk?'rgba(100,140,210,0.3)':'rgba(50,102,173,0.22)', 1.2, [4,3], W, H);
+    drawIQ(Y0*2.0, alpha, beta, dk?'rgba(100,140,210,0.3)':'rgba(50,102,173,0.22)', 1.2, [4,3], W, H);
+    drawIQ(Y0, alpha, beta, dk?'#85B7EB':'#3266ad', 2, [], W, H);
+    drawIC(opt.C, w, r, dk?'#F0997B':'#d85a30', 2, [], W, H);
+    dropLines(opt.L, opt.K, dk?'rgba(93,202,165,0.35)':'rgba(29,158,117,0.3)', W, H);
+    dot(opt.L, opt.K, dk?'#5DCAA5':'#1D9E75', 5.5, W, H);
+
+    ctx.fillStyle = dk?'#5DCAA5':'#0F6E56'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    const lx = tx(opt.L,W), ly = ty(opt.K,H);
+    ctx.fillText(`(${opt.L.toFixed(1)}, ${opt.K.toFixed(1)})`, lx+8, ly-8);
+
+    ctx.fillStyle = dk?'rgba(130,170,220,0.7)':'rgba(50,102,173,0.6)'; ctx.font='11px sans-serif';
+    const kHalf = isoquantK_val(0.5, Y0*0.5, alpha, beta);
+    if (kHalf && kHalf < KMAX) ctx.fillText('½Y₀', tx(0.5,W)+4, ty(kHalf,H)-4);
+    const kTwo = isoquantK_val(1.2, Y0*2.0, alpha, beta);
+    if (kTwo && kTwo < KMAX) ctx.fillText('2Y₀', tx(1.2,W)+4, ty(kTwo,H)-4);
+    const kY0 = isoquantK_val(0.8, Y0, alpha, beta);
+    if (kY0 && kY0 < KMAX) { ctx.fillStyle = dk?'#85B7EB':'#3266ad'; ctx.fillText('Y₀', tx(0.8,W)+4, ty(kY0,H)-4); }
+
+  } else {
+    const optB = optimal(w2, r, alpha, beta, Y0);
+    const Ynew = Y0 * (opt.C / optB.C);
+    const optC = optimal(w2, r, alpha, beta, Math.max(Ynew, 0.1));
+
+    drawIQ(Y0, alpha, beta, dk?'#85B7EB':'#3266ad', 2, [], W, H);
+    if (Ynew > 0.1 && Ynew < Y0*3) {
+      drawIQ(Ynew, alpha, beta, dk?'rgba(230,150,200,0.5)':'rgba(150,80,150,0.35)', 1.5, [4,3], W, H);
+    }
+    drawIC(opt.C, w, r, dk?'#F0997B':'#d85a30', 1.8, [], W, H);
+    drawIC(optB.C, w2, r, dk?'#F0E0B0':'#e67e22', 1.8, [], W, H);
+    drawIC(optB.C, w2, r, dk?'rgba(180,130,220,0.6)':'rgba(150,80,180,0.5)', 1.5, [5,3], W, H);
+
+    dropLines(opt.L, opt.K, dk?'rgba(93,202,165,0.25)':'rgba(29,158,117,0.2)', W, H);
+    dropLines(optB.L, optB.K, dk?'rgba(180,130,220,0.25)':'rgba(150,80,180,0.2)', W, H);
+    dropLines(optC.L, optC.K, dk?'rgba(230,150,80,0.25)':'rgba(200,100,30,0.2)', W, H);
+
+    dot(opt.L, opt.K, dk?'#5DCAA5':'#1D9E75', 6, W, H);
+    dot(optB.L, optB.K, dk?'#C39BD3':'#9b59b6', 6, W, H);
+    dot(optC.L, optC.K, dk?'#F5CBA7':'#e67e22', 6, W, H);
+
+    ctx.font='11px sans-serif';
+    const label = (L,K,col,txt) => {
+      ctx.fillStyle=col; ctx.textAlign='left';
+      ctx.fillText(txt, tx(L,W)+8, ty(K,H)-8);
+    };
+    label(opt.L, opt.K, dk?'#5DCAA5':'#0F6E56', `A  L=${opt.L.toFixed(2)}`);
+    label(optB.L, optB.K, dk?'#C39BD3':'#7d3c98', `B  L=${optB.L.toFixed(2)}`);
+    label(optC.L, optC.K, dk?'#F5CBA7':'#b7590a', `C  L=${optC.L.toFixed(2)}`);
+  }
+}
+
+['sl-w','sl-r','sl-alpha','sl-beta','sl-w2'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    const vals = p();
+    document.getElementById('v-w').textContent = vals.w.toFixed(1);
+    document.getElementById('v-r').textContent = vals.r.toFixed(1);
+    document.getElementById('v-alpha').textContent = vals.alpha.toFixed(2);
+    document.getElementById('v-beta').textContent = vals.beta.toFixed(2);
+    document.getElementById('v-w2').textContent = vals.w2.toFixed(1);
+    draw();
+  });
+});
+
+setTimeout(draw, 80);
+window.addEventListener('resize', draw);
+</script>
+
+</body>
+</html>

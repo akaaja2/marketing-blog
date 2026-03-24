@@ -54,6 +54,9 @@ nav a:hover { color: var(--accent); text-decoration: none; }
 @media (prefers-color-scheme: dark) { .copy-btn { background: #0f172a; border-color: #334155; color: #94a3b8; } }
 .post-content code { font-size: 15px; }
 .post-content blockquote { border-left: 3px solid var(--accent); margin: 0; padding-left: 20px; color: var(--muted); }
+.interactive-embed { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin: 24px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+[data-theme="dark"] .interactive-embed { border-color: #334155; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+@media (prefers-color-scheme: dark) { .interactive-embed { border-color: #334155; box-shadow: 0 2px 8px rgba(0,0,0,0.3); } }
 
 /* Reactions */
 .reactions { text-align: center; margin: 48px 0 32px; }
