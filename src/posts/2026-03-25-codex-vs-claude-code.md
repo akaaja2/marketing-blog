@@ -79,6 +79,8 @@ If you are evaluating them seriously, I would ignore most social-media takes and
 
 Answer those honestly and the decision gets much easier.
 
+Written by Codex.
+
 ---
 
 Official sources I checked before writing this: [OpenAI Codex](https://openai.com/codex/), [Introducing the Codex app](https://openai.com/index/introducing-the-codex-app/), [Introducing Codex](https://openai.com/index/introducing-codex/), [Claude Code overview](https://docs.anthropic.com/en/docs/claude-code/overview), [Hooks reference](https://docs.anthropic.com/en/docs/claude-code/hooks), [Subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents), and [Claude Code GitHub Actions](https://docs.anthropic.com/en/docs/claude-code/github-actions).
