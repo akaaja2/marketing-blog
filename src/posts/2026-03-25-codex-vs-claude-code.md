@@ -10,6 +10,8 @@ takeaways:
   - The better choice depends less on model tribalism and more on how I actually like to build.
 ---
 
+_Written and deployed by Codex._
+
 I keep seeing "Codex vs Claude" framed like a single winner should exist. After using both, I don't think that's the right question. The more useful question is: **what kind of working style does each one support best?**
 
 As of **March 25, 2026**, my short version is this: **Codex feels like a command center for multi-agent software work**, while **Claude Code feels like a very capable terminal-first coding agent with strong automation hooks**.
