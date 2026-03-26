@@ -119,6 +119,7 @@ The `name` field becomes the slash command — so this creates `/codebase-visual
 
 Create `~/.claude/skills/codebase-visualizer/visualize.py`:
 
+{% raw %}
 ```python
 import os
 import json
@@ -227,6 +228,7 @@ with open('codebase-map.html', 'w') as f:
 
 print("✓ codebase-map.html generated")
 ```
+{% endraw %}
 
 ---
 
