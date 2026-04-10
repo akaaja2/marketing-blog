@@ -83,7 +83,7 @@ module.exports = function (eleventyConfig) {
       .slice(0, 3);
   });
 
-  eleventyConfig.addFilter("timelineArchive", function (allPosts, monthsOpenByDefault = 2) {
+  eleventyConfig.addFilter("timelineArchive", function (allPosts, monthsOpenByDefault = 1) {
     if (!Array.isArray(allPosts)) return [];
 
     const years = new Map();
