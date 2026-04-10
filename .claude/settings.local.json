@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:claude.ai)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "WebFetch(domain:www.linkedin.com)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:claude4marketing.netlify.app)",
+      "WebFetch(domain:chromewebstore.google.com)",
+      "WebSearch",
+      "mcp__playwright__browser_take_screenshot"
+    ]
+  }
+}
