@@ -84,7 +84,7 @@
       </nav>
     </div>
   </header>
-  <main class="container">
+  <main class="container{% if page.url == '/' %} home-page{% endif %}">
     {{ content | safe }}
   </main>
   <footer class="site-footer">

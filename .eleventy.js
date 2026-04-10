@@ -83,6 +83,68 @@ module.exports = function (eleventyConfig) {
       .slice(0, 3);
   });
 
+  eleventyConfig.addFilter("timelineArchive", function (allPosts, monthsOpenByDefault = 2) {
+    if (!Array.isArray(allPosts)) return [];
+
+    const years = new Map();
+    let remainingOpenMonths = monthsOpenByDefault;
+    const sortedPosts = [...allPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    for (const post of sortedPosts) {
+      const date = new Date(post.date);
+      const yearValue = date.getFullYear();
+      const monthValue = String(date.getMonth() + 1).padStart(2, "0");
+      const yearKey = String(yearValue);
+      const monthKey = `${yearKey}-${monthValue}`;
+
+      if (!years.has(yearKey)) {
+        years.set(yearKey, {
+          year: yearValue,
+          months: [],
+          postCount: 0,
+          monthCount: 0,
+          defaultOpen: false,
+          _monthMap: new Map(),
+        });
+      }
+
+      const year = years.get(yearKey);
+
+      if (!year._monthMap.has(monthKey)) {
+        const month = {
+          key: monthKey,
+          month: date.getMonth() + 1,
+          label: date.toLocaleDateString("en-GB", { month: "long" }),
+          postCount: 0,
+          posts: [],
+          defaultOpen: remainingOpenMonths > 0,
+        };
+
+        year._monthMap.set(monthKey, month);
+        year.months.push(month);
+
+        if (remainingOpenMonths > 0) {
+          remainingOpenMonths -= 1;
+        }
+      }
+
+      const month = year._monthMap.get(monthKey);
+      month.posts.push(post);
+      month.postCount += 1;
+      year.postCount += 1;
+    }
+
+    return [...years.values()]
+      .map(year => {
+        year.months.sort((a, b) => b.key.localeCompare(a.key));
+        year.monthCount = year.months.length;
+        year.defaultOpen = year.months.some(month => month.defaultOpen);
+        delete year._monthMap;
+        return year;
+      })
+      .sort((a, b) => b.year - a.year);
+  });
+
   eleventyConfig.addFilter("readingTime", function (content) {
     const words = content.split(/\s+/).length;
     return Math.ceil(words / 200) + " min read";
