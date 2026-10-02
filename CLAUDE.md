@@ -140,9 +140,13 @@ takeaways:                           # optional, for posts 400+ words
 - npm start → local dev server at localhost:8080
 - Push to main → Netlify auto-deploys in ~20s
 ### MCP connectors (Claude Code)
-- GitHub MCP: ✅ connected via npx @modelcontextprotocol/server-github
-- Netlify MCP: ❌ blocked (Node/npx issue on Windows — retry after machine restart)
+Status checked 2026-10-02 from the claude.ai connector list (account-level flag, not a live call test).
+- Connected and enabled: Context7, Figma, Gamma, Gmail, Google Calendar, Google Drive, Linear, Netlify, Notion, Slack, Spotify, Supabase
+- Installed but NOT connected (need OAuth in claude.ai connector settings): Canva, Robinhood, Strava
+- GitHub MCP: ✅ available in cloud sessions, scoped to akaaja2/marketing-blog
+- Netlify MCP: ✅ shows connected (the old Windows Node/npx block is stale; tool calls not yet tested)
 - Publishing workaround: use gh CLI (already authenticated)
+- OpenAI-side connector/permission comparison: not yet done (needs the OpenAI connector list)
 ### Tomorrow's priority
 - ERD-111 — JSON-LD structured data (Urgent)
 - ERD-125 — Clickable post card images (High)
